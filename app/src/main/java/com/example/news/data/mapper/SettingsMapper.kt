@@ -7,6 +7,6 @@ fun Settings.toRefreshConfig(): RefreshConfig {
     return RefreshConfig(
         language = language,
         interval = interval,
-        wifiOnly = wifiUpdate
+        wifiOnly = wifiOnly
     )
 }

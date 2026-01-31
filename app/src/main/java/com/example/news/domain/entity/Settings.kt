@@ -4,7 +4,7 @@ data class Settings(
     val language: Language,
     val interval: Interval,
     val notificationEnabled: Boolean,
-    val wifiUpdate: Boolean
+    val wifiOnly: Boolean
 ) {
 
     companion object {

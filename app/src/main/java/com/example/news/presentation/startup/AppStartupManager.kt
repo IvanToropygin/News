@@ -1,6 +1,6 @@
 package com.example.news.presentation.startup
 
-import com.example.news.domain.usecase.StartRefreshDataUseCase
+import com.example.news.domain.usecase.news.StartRefreshDataUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

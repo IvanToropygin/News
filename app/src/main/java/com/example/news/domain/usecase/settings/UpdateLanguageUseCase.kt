@@ -1,4 +1,4 @@
-package com.example.news.domain.usecase
+package com.example.news.domain.usecase.settings
 
 import com.example.news.domain.entity.Language
 import com.example.news.domain.repository.SettingsRepository

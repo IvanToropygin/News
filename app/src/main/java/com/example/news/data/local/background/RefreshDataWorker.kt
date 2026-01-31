@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.news.domain.usecase.GetSettingsUseCase
-import com.example.news.domain.usecase.UpdateArticlesForAllSubscriptionsUseCase
+import com.example.news.domain.usecase.news.UpdateArticlesForAllSubscriptionsUseCase
+import com.example.news.domain.usecase.settings.GetSettingsUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first

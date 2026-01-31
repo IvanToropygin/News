@@ -41,7 +41,7 @@ class SettingsRepositoryImpl @Inject constructor(
                 language = language,
                 interval = interval,
                 notificationEnabled = notificationsEnabled,
-                wifiUpdate = wifiOnly
+                wifiOnly = wifiOnly
             )
         }
     }
