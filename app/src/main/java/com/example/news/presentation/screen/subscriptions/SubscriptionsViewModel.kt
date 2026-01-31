@@ -72,8 +72,8 @@ class SubscriptionsViewModel @Inject constructor(
                 viewModelScope.launch { updateArticlesForAllSubscriptionsUseCase }
             }
 
-            SubscriptionsCommand.RemoveSubscription -> {
-                viewModelScope.launch { removeSubscriptionUseCase }
+            is SubscriptionsCommand.RemoveSubscription -> {
+                viewModelScope.launch { removeSubscriptionUseCase(command.topic) }
             }
 
             is SubscriptionsCommand.ToggleTopicSelection -> {
@@ -124,7 +124,7 @@ sealed interface SubscriptionsCommand {
     data object ClickSubscribe : SubscriptionsCommand
     data object RefreshData : SubscriptionsCommand
     data object ClearArticles : SubscriptionsCommand
-    data object RemoveSubscription : SubscriptionsCommand
+    data class RemoveSubscription(val topic: String) : SubscriptionsCommand
 }
 
 data class SubscriptionState(
