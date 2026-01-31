@@ -12,8 +12,10 @@ import com.example.news.data.local.SubscriptionDbModel
 import com.example.news.data.local.background.RefreshDataWorker
 import com.example.news.data.mapper.toDBModels
 import com.example.news.data.mapper.toEntities
+import com.example.news.data.mapper.toQueryParam
 import com.example.news.data.remote.NewsApiService
 import com.example.news.domain.entity.Article
+import com.example.news.domain.entity.Language
 import com.example.news.domain.entity.RefreshConfig
 import com.example.news.domain.repository.NewsRepository
 import kotlinx.coroutines.CancellationException
@@ -72,20 +74,31 @@ class NewsRepositoryImpl @Inject constructor(
         newsDao.removeSubscription(SubscriptionDbModel(topic))
     }
 
-    override suspend fun updateArticlesForTopic(topic: String) {
-        val articles = loadArticles(topic)
-        newsDao.addArticles(articles)
+    override suspend fun updateArticlesForTopic(topic: String, language: Language): Boolean {
+        val articles = loadArticles(
+            topic = topic,
+            language = language
+        )
+        val ids = newsDao.addArticles(articles)
+        return ids.any {
+            it != -1L
+        }
     }
 
-    override suspend fun updateArticlesForAllSubscriptions() {
+    override suspend fun updateArticlesForAllSubscriptions(language: Language): List<String> {
+        val updatedTopics = mutableListOf<String>()
         val subscriptions = newsDao.getAllSubscriptions().first()
         coroutineScope {
             subscriptions.forEach {
                 launch {
-                    updateArticlesForTopic(it.topic)
+                    val updated = updateArticlesForTopic(it.topic, language)
+                    if (updated) {
+                        updatedTopics.add(it.topic)
+                    }
                 }
             }
         }
+        return updatedTopics
     }
 
     override fun getArticlesByTopics(topics: List<String>): Flow<List<Article>> {
@@ -98,9 +111,13 @@ class NewsRepositoryImpl @Inject constructor(
         newsDao.deleteArticlesByTopics(topics)
     }
 
-    private suspend fun loadArticles(topic: String): List<ArticleDbModel> {
+    private suspend fun loadArticles(topic: String, language: Language): List<ArticleDbModel> {
         return try {
-            newsApiService.loadArticles(topic).toDBModels(topic)
+            newsApiService.loadArticles(
+                topic = topic,
+                language = language.toQueryParam()
+            )
+                .toDBModels(topic)
         } catch (e: Exception) {
             if (e is CancellationException) {
                 throw e

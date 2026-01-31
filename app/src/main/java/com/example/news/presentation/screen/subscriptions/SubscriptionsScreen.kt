@@ -306,6 +306,7 @@ private fun ArticleCard(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(Modifier.height(8.dp))
@@ -316,6 +317,7 @@ private fun ArticleCard(
                     text = article.description,
                     maxLines = 4,
                     overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.secondary
                 )
                 Spacer(Modifier.height(8.dp))
             }
