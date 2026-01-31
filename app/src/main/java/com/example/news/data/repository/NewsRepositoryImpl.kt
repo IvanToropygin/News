@@ -1,7 +1,9 @@
 package com.example.news.data.repository
 
 import android.util.Log
+import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.news.data.local.ArticleDbModel
@@ -12,6 +14,7 @@ import com.example.news.data.mapper.toDBModels
 import com.example.news.data.mapper.toEntities
 import com.example.news.data.remote.NewsApiService
 import com.example.news.domain.entity.Article
+import com.example.news.domain.entity.RefreshConfig
 import com.example.news.domain.repository.NewsRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.coroutineScope
@@ -25,14 +28,28 @@ import javax.inject.Inject
 class NewsRepositoryImpl @Inject constructor(
     private val newsDao: NewsDao,
     private val newsApiService: NewsApiService,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
 ) : NewsRepository {
 
-    private fun startBackgroundRefresh() {
+    override suspend fun startBackgroundRefresh(refreshConfig: RefreshConfig) {
+
+        val constrains = Constraints.Builder()
+            .setRequiredNetworkType(
+                if (refreshConfig.wifiOnly) {
+                    NetworkType.UNMETERED
+                } else {
+                    NetworkType.CONNECTED
+                }
+            )
+            .setRequiresBatteryNotLow(true)
+            .build()
+
         val request = PeriodicWorkRequestBuilder<RefreshDataWorker>(
-            repeatInterval = 15L,
+            repeatInterval = refreshConfig.interval.minutes.toLong(),
             repeatIntervalTimeUnit = TimeUnit.MINUTES,
-        ).build()
+        )
+            .setConstraints(constrains)
+            .build()
 
         workManager.enqueueUniquePeriodicWork(
             uniqueWorkName = "update news subscriptions data",

@@ -11,7 +11,7 @@ data class Settings(
         val DEFAULT_LANGUAGE = Language.ENGLISH
         val DEFAULT_INTERVAL = Interval.MIN_15
         const val DEFAULT_NOTIFICATIONS_ENABLED = false
-        const val DEFAULT_WIFI_ONLY = false
+        const val DEFAULT_WIFI_ONLY = true
     }
 }
 
