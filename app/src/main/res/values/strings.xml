@@ -19,4 +19,23 @@
     <string name="new_articles">New articles</string>
     <string name="new_articles_notification_title">New articles</string>
     <string name="update_subscriptions_notification_text">Update %1$d subscriptions: %2$s</string>
+    <string name="settings_title">Settings</string>
+    <string name="back">Back</string>
+    <string name="select_language">Select Language</string>
+    <string name="select_language_for_news_searching">Select language for news searching</string>
+    <string name="english">English</string>
+    <string name="russian">Русский</string>
+    <string name="french">Français</string>
+    <string name="german">Deutsch</string>
+    <string name="_15_minutes">15 minutes</string>
+    <string name="_30_minutes">30 minutes</string>
+    <string name="_1_hour">1 hour</string>
+    <string name="_4_hours">4 hours</string>
+    <string name="_24_hours">24 hours</string>
+    <string name="update_interval">Update interval</string>
+    <string name="hoe_often_to_update_news">Hoe often to update news</string>
+    <string name="notifications_title">Notifications</string>
+    <string name="show_notification_about_new_article">Show notification about new article</string>
+    <string name="update_only_via_wi_fi">Update only via Wi-Fi</string>
+    <string name="save_mobile_network">Save mobile network</string>
 </resources>
